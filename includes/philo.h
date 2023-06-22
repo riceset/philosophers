@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/22 16:45:12 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/22 16:48:00 by tkomeno          ###   ########.fr       */
+/*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
+/*   Updated: 2023/06/22 16:47:59 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef PHILO_H
+#define PHILO_H
 
-int main(void)
-{
-	printf("Hello World!\n");
-	return (0);
-}
+#include "libft.h"
+#include <stdio.h>
+
+#endif

@@ -1,4 +1,4 @@
-NAME		=	PROJECT_NAME
+NAME		=	philo
 LIBFT_PATH	=	./libraries/libft
 LIBS_PATH 	= 	-L$(LIBFT_PATH)
 LIBS		=	-lft
