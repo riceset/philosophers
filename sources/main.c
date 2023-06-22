@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:45:12 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/22 18:43:49 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/22 19:14:53 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 #define CYAN            "\033[36m"
 #define WHITE           "\033[37m"
 #define RESET			"\x1b[0m"
+
+typedef struct s_counter
+{
+	pthread_mutex_t mutex;
+	int i;
+} t_counter;
 
 char *join_strs(int count, ...)
 {
@@ -76,16 +82,14 @@ char *new_color(void)
 
 void *routine(void *arg)
 {
-	int *number;
+	t_counter *counter;
 
-	number = (int *) arg;
+	counter = (t_counter *)arg;
 
+	pthread_mutex_lock(&counter->mutex);
 	printf("%s%s%s\n", RED, join_strs(3, "Philosopher ",
-				ft_itoa(*number), " is eating."), RESET);
-	printf("%s%s%s\n", GREEN, join_strs(3, "Philosopher ",
-				ft_itoa(*number), " is sleeping."), RESET);
-	printf("%s%s%s\n", BLUE, join_strs(3, "Philosopher ",
-				ft_itoa(*number), " is thinking."), RESET);
+				ft_itoa(counter->i), " is eating."), RESET);
+	pthread_mutex_unlock(&counter->mutex);
 
 	return (NULL);
 }
@@ -94,14 +98,11 @@ void *routine(void *arg)
 int main(void)
 {
 	pthread_t *philos;
+	t_counter counter;
 
 	philos = malloc(sizeof(pthread_t *) * PHILO_NUM);
-
-	for (int i = 0; i < PHILO_NUM; i++)
-	{
-		if (pthread_create(&philos[i], NULL, routine, &i))
-			return (1);
-	}
+	counter.i = 0;
+	pthread_create(&philos[counter.i], NULL, routine, &counter);
 
 	for (int i = 0; i < PHILO_NUM; i++)
 	{
