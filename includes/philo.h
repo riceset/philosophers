@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/22 16:47:59 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/22 16:51:00 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,10 @@
 
 #include "libft.h"
 #include <stdio.h>
+#include <pthread.h>
+#include <sys/time.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
 #endif
