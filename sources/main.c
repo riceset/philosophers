@@ -1,114 +1,89 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/22 16:45:12 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/22 19:14:53 by tkomeno          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
-#include <stdarg.h>
-
-#define PHILO_NUM 2
-
-#define BLACK           "\033[30m"
-#define RED             "\033[31m"
-#define GREEN           "\033[32m"
-#define YELLOW          "\033[33m"
-#define BLUE            "\033[34m"
-#define MAGENTA         "\033[35m"
-#define CYAN            "\033[36m"
-#define WHITE           "\033[37m"
-#define RESET			"\x1b[0m"
-
-typedef struct s_counter
+typedef struct s_time
 {
-	pthread_mutex_t mutex;
-	int i;
-} t_counter;
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	int num_of_times_each_philo_must_eat;
+} t_time;
 
-char *join_strs(int count, ...)
+typedef struct s_data
 {
-	int i;
-	char *tmp;
-	char *result;
-	char *current;
-	va_list args;
+	int id;
+	int num_philos;
+	t_time time;
+	pthread_mutex_t *forks;
+} t_data;
 
-	va_start(args, count);
-	i = 0;
-	tmp = NULL;
-	result = NULL;
-	current = NULL;
-	while (i < count)
+t_data *init_data(int argc, char **argv)
+{
+	t_data *data;
+
+	data = malloc(sizeof(t_data *));
+	if (!data)
+		return (NULL);
+	data->num_philos = ft_atoi(argv[1]);
+	data->time.time_to_die = atoi(argv[2]);
+	data->time.time_to_eat = atoi(argv[3]);
+	data->time.time_to_sleep = atoi(argv[4]);
+	if (argc == 6)
+		data->time.num_of_times_each_philo_must_eat = atoi(argv[5]);
+	else
+		data->time.num_of_times_each_philo_must_eat = -1;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	if (!data->forks)
+		return (NULL);
+	int i = 0;
+	while (i < data->num_philos)
 	{
-		current = va_arg(args, char *);
-
-		if (result == NULL)
-			result = ft_strdup(current);
-		else
-		{
-			tmp = result;
-			result = ft_strjoin(tmp, current);
-			free(tmp);
-		}
-
-		if (result == NULL)
-		{
-			va_end(args);
-			return (NULL);
-		}
+		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
-	va_end(args);
 
-	return (result);
-}
-
-char *new_color(void)
-{
-	static int color_code = 31;
-
-	if (++color_code == 36)
-		color_code = 31;
-
-	return (join_strs(3, "\x1b[", ft_itoa(color_code), "m"));
+	return (data);
 }
 
 void *routine(void *arg)
 {
-	t_counter *counter;
-
-	counter = (t_counter *)arg;
-
-	pthread_mutex_lock(&counter->mutex);
-	printf("%s%s%s\n", RED, join_strs(3, "Philosopher ",
-				ft_itoa(counter->i), " is eating."), RESET);
-	pthread_mutex_unlock(&counter->mutex);
-
+	(void)arg;
 	return (NULL);
 }
 
-
-int main(void)
+void destroy_data(t_data *data)
 {
+	free(data->forks);
+	free(data);
+}
+
+int main(int argc, char **argv)
+{
+	t_data *data;
 	pthread_t *philos;
-	t_counter counter;
 
-	philos = malloc(sizeof(pthread_t *) * PHILO_NUM);
-	counter.i = 0;
-	pthread_create(&philos[counter.i], NULL, routine, &counter);
+	if (!(5 <= argc && argc <= 6))
+		return (1);
+	data = init_data(argc, argv);
+	if (!data)
+		return (1);
 
-	for (int i = 0; i < PHILO_NUM; i++)
+	philos = malloc(sizeof(pthread_t) * data->num_philos);
+	if (!philos)
+		return (1);
+	int i = 0;
+	while (i < data->num_philos)
 	{
-		if (pthread_join(philos[i], NULL))
-			return (1);
+		data->id = i + 1;
+		pthread_create(&philos[i], NULL, routine, NULL);
+		i++;
 	}
-
+	i = 0;
+	while (i < data->num_philos)
+	{
+		pthread_join(philos[i], NULL);
+		i++;
+	}
+	free(philos);
+	destroy_data(data);
 	return (0);
 }
