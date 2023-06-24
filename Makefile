@@ -7,7 +7,8 @@ CFLAGS		=	-Wall -Wextra -Werror $(INCLUDES)
 FILES		=	main.c \
 				utils.c \
 				init.c \
-				error_handling.c
+				error_handling.c \
+				actions.c
 SRCS		=	$(addprefix sources/, $(FILES))
 OBJS		=	$(SRCS:.c=.o)
 
