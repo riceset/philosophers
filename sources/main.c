@@ -1,89 +1,64 @@
-#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
+/*   Updated: 2023/06/24 18:53:02 by tkomeno          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct s_time
-{
-	int time_to_die;
-	int time_to_eat;
-	int time_to_sleep;
-	int num_of_times_each_philo_must_eat;
-} t_time;
+#include "philo.h"
 
 typedef struct s_data
 {
-	int id;
-	int num_philos;
-	t_time time;
-	pthread_mutex_t *forks;
+	int number_of_philos;
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	int times_each_philo_must_eat;
 } t_data;
 
-t_data *init_data(int argc, char **argv)
+int error_handler(char *message, int code)
 {
-	t_data *data;
+	printf("philo: %s\n", message);
+	return (code);
+}
 
-	data = malloc(sizeof(t_data *));
-	if (!data)
-		return (NULL);
-	data->num_philos = ft_atoi(argv[1]);
-	data->time.time_to_die = atoi(argv[2]);
-	data->time.time_to_eat = atoi(argv[3]);
-	data->time.time_to_sleep = atoi(argv[4]);
-	if (argc == 6)
-		data->time.num_of_times_each_philo_must_eat = atoi(argv[5]);
-	else
-		data->time.num_of_times_each_philo_must_eat = -1;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
-	if (!data->forks)
-		return (NULL);
-	int i = 0;
-	while (i < data->num_philos)
+int incorrect_input(int argc, char **argv)
+{
+	int i;
+	int current;
+
+	if (!(5 <= argc && argc <= 6))
+		return (error_handler(USAGE, 1));
+	i = 1;
+	while (i < argc)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
+		if (!only_digits(argv[i]))
+			return (error_handler(USAGE, 1));
+		current = ft_atoi(argv[i]);
+		if (i == 1 && !(0 < current && current <= 250))
+			return (error_handler(USAGE, 1));
+		if (i != 1 && current == -1)
+			return (error_handler(USAGE, 1));
 		i++;
 	}
-
-	return (data);
-}
-
-void *routine(void *arg)
-{
-	(void)arg;
-	return (NULL);
-}
-
-void destroy_data(t_data *data)
-{
-	free(data->forks);
-	free(data);
+	return (0);
 }
 
 int main(int argc, char **argv)
 {
-	t_data *data;
-	pthread_t *philos;
+	// t_data data;
 
-	if (!(5 <= argc && argc <= 6))
-		return (1);
-	data = init_data(argc, argv);
-	if (!data)
+	if (incorrect_input(argc, argv))
 		return (1);
 
-	philos = malloc(sizeof(pthread_t) * data->num_philos);
-	if (!philos)
-		return (1);
-	int i = 0;
-	while (i < data->num_philos)
-	{
-		data->id = i + 1;
-		pthread_create(&philos[i], NULL, routine, NULL);
-		i++;
-	}
-	i = 0;
-	while (i < data->num_philos)
-	{
-		pthread_join(philos[i], NULL);
-		i++;
-	}
-	free(philos);
-	destroy_data(data);
-	return (0);
+	// data.number_of_philos = ft_atoi(argv[1]);
+	// data.time_to_die = ft_atoi(argv[2]);
+	// data.time_to_eat = ft_atoi(argv[3]);
+	// data.time_to_sleep = ft_atoi(argv[4]);
+	// data.times_each_philo_must_eat = ft_atoi(argv[5]);
 }
