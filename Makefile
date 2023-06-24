@@ -5,7 +5,9 @@ LIBS		=	-lft
 INCLUDES	=	-I ./includes -I $(LIBFT_PATH)/includes
 CFLAGS		=	-Wall -Wextra -Werror $(INCLUDES)
 FILES		=	main.c \
-				utils.c
+				utils.c \
+				init.c \
+				error_handling.c
 SRCS		=	$(addprefix sources/, $(FILES))
 OBJS		=	$(SRCS:.c=.o)
 
