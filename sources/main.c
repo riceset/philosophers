@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/27 18:32:37 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/27 18:52:36 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,23 @@ bool	init_forks(t_data **data)
 	return (true);
 }
 
+void print_current_philo(t_philo *philo)
+{
+	printf("ID: %d\n", philo->id);
+	// printf("LF: %p\n", philo->left_fork);
+	// printf("RF: %p\n", philo->right_fork);
+}
+
 void	*routine(void *arg)
 {
 	(void)arg;
-	// t_philo *philo;
+	t_philo *philo;
 
-	// philo = (t_philo *)arg;
+	philo = (t_philo *)arg;
+
+	print_current_philo(philo);
 
 	return (NULL);
-}
-
-void print_current_philo(t_philo *philos)
-{
-	printf("ID: %d\n", philos->id);
-	printf("LF: %p\n", philos->left_fork);
-	printf("RF: %p\n", philos->right_fork);
 }
 
 bool	init_philos(t_data **data, t_philo **philos)
@@ -71,19 +73,16 @@ bool	init_philos(t_data **data, t_philo **philos)
 		(*philos)[i].left_fork = &(*data)->forks[i];
 		(*philos)[i].right_fork = &(*data)->forks[(i + 1)
 			% (*data)->number_of_philos];
-		print_current_philo(&(*philos)[i]);
-		// if (pthread_create(&(philos)[i]->thread, NULL, routine,
-		// 		&philos[i]) != 0)
-		// 	return (false);
+		pthread_create(&(*philos)[i].thread, NULL, routine, &(*philos)[i]);
 		i++;
 	}
 
-	// i = 0;
-	// while (i < (*data)->number_of_philos)
-	// {
-	// 	pthread_join(philos[i]->thread, NULL);
-	// 	i++;
-	// }
+	i = 0;
+	while (i < (*data)->number_of_philos)
+	{
+		pthread_join((*philos)[i].thread, NULL);
+		i++;
+	}
 	return (true);
 }
 

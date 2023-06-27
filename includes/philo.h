@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/24 22:19:08 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/27 17:42:19 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,16 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_each_philo_must_eat;
-	int				times_ate;
 	pthread_mutex_t	*forks;
 }					t_data;
+
+typedef struct s_philo
+{
+	int id;
+	pthread_t thread;
+	pthread_mutex_t *left_fork;
+	pthread_mutex_t *right_fork;
+} t_philo;
 
 bool				only_digits(char *str);
 int					error_handler(char *message, int code);
