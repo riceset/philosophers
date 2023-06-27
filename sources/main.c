@@ -6,48 +6,15 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/27 18:52:36 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/27 19:06:08 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool	alloc_philos(t_data **data, t_philo **philos)
-{
-	*philos = malloc(sizeof(t_philo) * (*data)->number_of_philos);
-	if (!philos)
-		return (false);
-	return (true);
-}
-
-bool	alloc_forks(t_data **data)
-{
-	(*data)->forks = malloc(sizeof(pthread_mutex_t)
-			* (*data)->number_of_philos);
-	if (!(*data)->forks)
-		return (false);
-	return (true);
-}
-
-bool	init_forks(t_data **data)
-{
-	int	i;
-
-	i = 0;
-	while (i < (*data)->number_of_philos)
-	{
-		if (pthread_mutex_init(&(*data)->forks[i], NULL) != 0)
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 void print_current_philo(t_philo *philo)
 {
 	printf("ID: %d\n", philo->id);
-	// printf("LF: %p\n", philo->left_fork);
-	// printf("RF: %p\n", philo->right_fork);
 }
 
 void	*routine(void *arg)
@@ -62,49 +29,10 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-bool	init_philos(t_data **data, t_philo **philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < (*data)->number_of_philos)
-	{
-		(*philos)[i].id = i + 1;
-		(*philos)[i].left_fork = &(*data)->forks[i];
-		(*philos)[i].right_fork = &(*data)->forks[(i + 1)
-			% (*data)->number_of_philos];
-		pthread_create(&(*philos)[i].thread, NULL, routine, &(*philos)[i]);
-		i++;
-	}
-
-	i = 0;
-	while (i < (*data)->number_of_philos)
-	{
-		pthread_join((*philos)[i].thread, NULL);
-		i++;
-	}
-	return (true);
-}
-
 bool debug(void)
 {
 	printf("ERROR!!!!!!!!!!\n");
 	return (false);
-}
-
-//TODO: Instead of returning false, free all the allocated
-//memory.
-bool	init2(t_data **data, t_philo **philos)
-{
-	if (!alloc_philos(data, philos))
-		return (debug());
-	else if (!alloc_forks(data))
-		return (debug());
-	else if (!init_forks(data))
-		return (debug());
-	else if (!init_philos(data, philos))
-		return (debug());
-	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -114,18 +42,8 @@ int	main(int argc, char **argv)
 
 	philos = NULL;
 	data = NULL;
-	if (!init(argc, argv, &data))
+	if (!init(argc, argv, &data, &philos))
 		return (EXIT_FAILURE);
-	if (!init2(&data, &philos))
-		return (EXIT_FAILURE);
-	// if (!init_philos(data, philos))
-	// 	return (EXIT_FAILURE);
-	// if (!create_threads(data, philos))
-	// 	return (EXIT_FAILURE);
-	// if (!join_threads(data, philos))
-	// 	return (EXIT_FAILURE);
-	// free(philos);
-	// free(data);
 	return (EXIT_SUCCESS);
 }
 

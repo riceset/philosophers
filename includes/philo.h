@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/27 17:42:19 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/27 19:03:21 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,28 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int id;
-	pthread_t thread;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
-} t_philo;
+	int				id;
+	pthread_t		thread;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+}					t_philo;
 
 bool				only_digits(char *str);
 int					error_handler(char *message, int code);
 int					incorrect_input(int argc, char **argv);
 bool				init_data(t_data **data, int argc, char **argv);
-bool				init(int argc, char **argv, t_data **data);
 void				philo_eat(void);
 void				philo_sleep(void);
 void				philo_think(void);
 long long			get_time(void);
+bool				init_philos(t_data **data, t_philo **philos);
+void				*routine(void *arg);
+bool				alloc_data(t_data **data);
+bool				alloc_philos(t_data **data, t_philo **philos);
+bool				alloc_forks(t_data **data);
+bool				init_forks(t_data **data);
+void				print_current_philo(t_philo *philo);
+bool				init(int argc, char **argv, t_data **data,
+						t_philo **philos);
 
 #endif
