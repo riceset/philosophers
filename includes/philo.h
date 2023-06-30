@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:20:51 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:47:17 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ bool				only_digits(char *str);
 int					error_handler(char *message, int code);
 int					incorrect_input(int argc, char **argv);
 bool				init_data(t_data **data, int argc, char **argv);
-void				philo_eat(void);
-void				philo_sleep(void);
-void				philo_think(void);
 long long			get_time(void);
 bool				init_philos(t_data **data, t_philo **philos);
 void				*routine(void *arg);
@@ -68,5 +65,9 @@ bool				init(int argc, char **argv, t_data **data,
 void				*routine(void *arg);
 void				print_current_philo(t_philo *philo);
 bool				debug(void);
+void				philo_eat(pthread_mutex_t *left_fork,
+						pthread_mutex_t *right_fork, int id, int time_to_eat);
+void				philo_sleep(int id, int time_to_sleep);
+void				philo_think(int id);
 
 #endif
