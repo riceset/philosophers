@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:47:17 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:55:58 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,12 @@ bool				init(int argc, char **argv, t_data **data,
 void				*routine(void *arg);
 void				print_current_philo(t_philo *philo);
 bool				debug(void);
-void				philo_eat(pthread_mutex_t *left_fork,
-						pthread_mutex_t *right_fork, int id, int time_to_eat);
+void				philo_eat(int id, int time_to_eat);
 void				philo_sleep(int id, int time_to_sleep);
 void				philo_think(int id);
+void				get_forks(pthread_mutex_t *left_fork,
+						pthread_mutex_t *right_fork, int id);
+void				release_forks(pthread_mutex_t *left_fork,
+						pthread_mutex_t *right_fork, int id);
 
 #endif

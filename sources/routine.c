@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 13:19:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:49:01 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:56:36 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	*routine(void *arg)
 	while (i < data->times_each_philo_must_eat)
 	{
 		philo_think(philo->id);
-		philo_eat(philo->left_fork, philo->right_fork, philo->id,
-				data->time_to_eat);
+		get_forks(philo->left_fork, philo->right_fork, philo->id);
+		philo_eat(philo->id, data->time_to_eat);
+		release_forks(philo->left_fork, philo->right_fork, philo->id);
 		philo_sleep(philo->id, data->time_to_sleep);
 		i++;
 	}
