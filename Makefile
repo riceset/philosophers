@@ -9,7 +9,8 @@ FILES		=	main.c \
 				init.c \
 				error_handling.c \
 				actions.c \
-				alloc.c
+				alloc.c \
+				routine.c
 SRCS		=	$(addprefix sources/, $(FILES))
 OBJS		=	$(SRCS:.c=.o)
 

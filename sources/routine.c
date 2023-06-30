@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:21:12 by tkomeno          ###   ########.fr       */
+/*   Created: 2023/06/30 13:19:44 by tkomeno           #+#    #+#             */
+/*   Updated: 2023/06/30 13:19:51 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	*routine(void *arg)
 {
-	t_data	*data;
-	t_philo *philos;
+	(void)arg;
+	t_philo *philo;
 
-	if (!init(argc, argv, &data, &philos))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	philo = (t_philo *)arg;
+	printf("philos_num:%d\n", philo->data->number_of_philos);
+
+	return (NULL);
 }

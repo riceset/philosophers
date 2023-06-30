@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:21:12 by tkomeno          ###   ########.fr       */
+/*   Created: 2023/06/30 13:20:16 by tkomeno           #+#    #+#             */
+/*   Updated: 2023/06/30 13:20:53 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void print_current_philo(t_philo *philo)
 {
-	t_data	*data;
-	t_philo *philos;
-
-	if (!init(argc, argv, &data, &philos))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	printf("ID: %d\n", philo->id);
 }
+
+bool debug(void)
+{
+	printf("ERROR!!!!!!!!!!\n");
+	return (false);
+}
+

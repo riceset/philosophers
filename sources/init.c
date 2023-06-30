@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:52:48 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/27 19:05:49 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:17:48 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ bool	init_philos(t_data **data, t_philo **philos)
 		(*philos)[i].left_fork = &(*data)->forks[i];
 		(*philos)[i].right_fork = &(*data)->forks[(i + 1)
 			% (*data)->number_of_philos];
+		(*philos)[i].data = *data;
 		pthread_create(&(*philos)[i].thread, NULL, routine, &(*philos)[i]);
 		i++;
 	}

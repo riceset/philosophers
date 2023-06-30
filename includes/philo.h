@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/27 19:03:21 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/06/30 13:20:51 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	t_data			*data;
 }					t_philo;
 
 bool				only_digits(char *str);
@@ -64,5 +65,8 @@ bool				init_forks(t_data **data);
 void				print_current_philo(t_philo *philo);
 bool				init(int argc, char **argv, t_data **data,
 						t_philo **philos);
+void				*routine(void *arg);
+void				print_current_philo(t_philo *philo);
+bool				debug(void);
 
 #endif
