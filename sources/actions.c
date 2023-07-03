@@ -6,53 +6,56 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 21:29:58 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/03 17:27:55 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/03 19:44:11 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	get_forks(pthread_mutex_t *left_fork, pthread_mutex_t *right_fork,
-		int id)
+void	get_forks(t_philo *philo)
 {
-	if (id % 2 == 0)
+	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(right_fork);
-		printf("Philosopher %d has taken the right fork\n", id);
-		pthread_mutex_lock(left_fork);
-		printf("Philosopher %d has taken the left fork\n", id);
+		pthread_mutex_lock(philo->right_fork);
+		printf("%lld %d has taken a fork\n", get_time()
+				- philo->data->start_time, philo->id);
+		pthread_mutex_lock(philo->left_fork);
+		printf("%lld %d has taken a fork\n", get_time()
+				- philo->data->start_time, philo->id);
 	}
 	else
 	{
-		pthread_mutex_lock(left_fork);
-		printf("Philosopher %d has taken the left fork\n", id);
-		pthread_mutex_lock(right_fork);
-		printf("Philosopher %d has taken the right fork\n", id);
+		pthread_mutex_lock(philo->left_fork);
+		printf("%lld %d has taken a fork\n", get_time()
+				- philo->data->start_time, philo->id);
+		pthread_mutex_lock(philo->right_fork);
+		printf("%lld %d has taken a fork\n", get_time()
+				- philo->data->start_time, philo->id);
 	}
 }
 
-void	release_forks(pthread_mutex_t *left_fork, pthread_mutex_t *right_fork,
-		int id)
+void	release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(left_fork);
-	printf("Philosopher %d has released the left fork\n", id);
-	pthread_mutex_unlock(right_fork);
-	printf("Philosopher %d has released the right fork\n", id);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
-void	philo_eat(int id, int time_to_eat)
+void	philo_eat(t_philo *philo)
 {
-	printf("Philosopher %d is eating\n", id);
-	usleep(time_to_eat * 1000);
+	printf("%lld %d is eating\n", get_time() - philo->data->start_time,
+			philo->id);
+	usleep(philo->data->time_to_eat * 1000);
 }
 
-void	philo_sleep(int id, int time_to_sleep)
+void	philo_sleep(t_philo *philo)
 {
-	printf("Philosopher %d is sleeping\n", id);
-	usleep(time_to_sleep * 1000);
+	printf("%lld %d is sleeping\n", get_time() - philo->data->start_time,
+			philo->id);
+	usleep(philo->data->time_to_sleep * 1000);
 }
-void	philo_think(int id)
+void	philo_think(t_philo *philo)
 {
-	printf("Philosopher %d is thinking\n", id);
+	printf("%lld %d is thinking\n", get_time() - philo->data->start_time,
+			philo->id);
 	usleep(1000);
 }
