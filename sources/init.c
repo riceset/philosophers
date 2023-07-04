@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:52:48 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/06/30 13:17:48 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/04 21:43:59 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ bool init(int argc, char **argv, t_data **data, t_philo **philos)
 		return (false);
 	else if (!alloc_data(data))
 		return (false);
-	else if (!init_data(data, argc, argv))
-		return (false);
 	else if (!alloc_philos(data, philos))
 		return (false);
 	else if (!alloc_forks(data))
 		return (false);
-	else if (!init_forks(data))
+	else if (!init_data(data, argc, argv))
 		return (false);
 	else if (!init_philos(data, philos))
+		return (false);
+	else if (!init_forks(data))
 		return (false);
 	return (true);
 }
