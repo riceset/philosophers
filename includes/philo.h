@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:46:38 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/03 19:27:25 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/04 21:47:21 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_data			*data;
+	bool			is_death;
 }					t_philo;
 
 bool				only_digits(char *str);

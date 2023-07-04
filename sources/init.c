@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:52:48 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/04 21:43:59 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/04 21:47:59 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ bool	init_philos(t_data **data, t_philo **philos)
 	i = 0;
 	while (i < (*data)->number_of_philos)
 	{
+		(*philos)[i].is_death = false;
 		(*philos)[i].id = i + 1;
 		(*philos)[i].left_fork = &(*data)->forks[i];
 		(*philos)[i].right_fork = &(*data)->forks[(i + 1)
