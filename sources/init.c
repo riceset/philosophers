@@ -6,27 +6,19 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:52:48 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/04 21:47:59 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/05 18:37:02 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool init(int argc, char **argv, t_data **data, t_philo **philos)
+bool init(int argc, char **argv, t_master **m)
 {
-	if (incorrect_input(argc, argv))
+	if (!init_data(&(*m)->data, argc, argv))
 		return (false);
-	else if (!alloc_data(data))
+	else if (!init_philos(&(*m)->data, &(*m)->philos))
 		return (false);
-	else if (!alloc_philos(data, philos))
-		return (false);
-	else if (!alloc_forks(data))
-		return (false);
-	else if (!init_data(data, argc, argv))
-		return (false);
-	else if (!init_philos(data, philos))
-		return (false);
-	else if (!init_forks(data))
+	else if (!init_forks(&(*m)->data))
 		return (false);
 	return (true);
 }

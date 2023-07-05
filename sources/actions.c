@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 21:29:58 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/03 19:44:11 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/04 21:52:29 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,15 @@ void	release_forks(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	printf("%lld %d is eating\n", get_time() - philo->data->start_time,
-			philo->id);
+	if (!philo->is_death)
+	{
+		printf("%lld %d is eating\n", get_time() - philo->data->start_time,
+				philo->id);
+	}
+	else
+	{
+		return ;
+	}
 	usleep(philo->data->time_to_eat * 1000);
 }
 

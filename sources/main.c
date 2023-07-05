@@ -6,7 +6,7 @@
 /*   By: tkomeno <tkomeno@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 18:24:44 by tkomeno           #+#    #+#             */
-/*   Updated: 2023/07/03 19:40:09 by tkomeno          ###   ########.fr       */
+/*   Updated: 2023/07/05 18:37:12 by tkomeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	*data;
-	t_philo *philos;
+	t_master	*master;
 
-	if (!init(argc, argv, &data, &philos))
+	if (incorrect_input(argc, argv))
 		return (EXIT_FAILURE);
+	else if (!alloc(&master))
+		return (EXIT_FAILURE);
+	else if (!init(argc, argv, &master))
+		return (EXIT_FAILURE);;
 	return (EXIT_SUCCESS);
 }
